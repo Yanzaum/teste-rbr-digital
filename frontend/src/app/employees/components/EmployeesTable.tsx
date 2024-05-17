@@ -2,50 +2,58 @@ import {
     Table,
     Thead,
     Tbody,
-    Tfoot,
     Tr,
     Th,
     Td,
-    TableCaption,
     TableContainer,
 } from '@chakra-ui/react'
+import EmployeesActions from './EmployeesActions'
+import { useQuery } from '@tanstack/react-query'
+import { employeeService } from '@/services/api/employees'
 
 export default function EmployeesTable() {
+    const {
+        data: employees,
+        isLoading,
+        error: errorOnLoadEmployees,
+    } = useQuery({
+        queryKey: ['employees'],
+        queryFn: employeeService.getEmployees,
+    })
+
     return (
         <TableContainer>
             <Table variant='simple'>
-                <TableCaption>Imperial to metric conversion factors</TableCaption>
                 <Thead>
                     <Tr>
-                        <Th>To convert</Th>
-                        <Th>into</Th>
-                        <Th isNumeric>multiply by</Th>
+                        <Th>Nome</Th>
+                        <Th>Cargo</Th>
+                        <Th>Departamento</Th>
+                        <Th>Ações</Th>
                     </Tr>
                 </Thead>
                 <Tbody>
-                    <Tr>
-                        <Td>inches</Td>
-                        <Td>millimetres (mm)</Td>
-                        <Td isNumeric>25.4</Td>
-                    </Tr>
-                    <Tr>
-                        <Td>feet</Td>
-                        <Td>centimetres (cm)</Td>
-                        <Td isNumeric>30.48</Td>
-                    </Tr>
-                    <Tr>
-                        <Td>yards</Td>
-                        <Td>metres (m)</Td>
-                        <Td isNumeric>0.91444</Td>
-                    </Tr>
+                    {isLoading && (
+                        <Tr>
+                            <Td colSpan={4}>Carregando...</Td>
+                        </Tr>
+                    )}
+                    {errorOnLoadEmployees && (
+                        <Tr>
+                            <Td colSpan={4}>Erro ao carregar colaboradores</Td>
+                        </Tr>
+                    )}
+                    {employees?.map((employee) => (
+                        <Tr key={employee.id}>
+                            <Td>{employee.name}</Td>
+                            <Td>{employee.role}</Td>
+                            <Td>{employee.department}</Td>
+                            <Td>
+                                <EmployeesActions id={employee.id} />
+                            </Td>
+                        </Tr>
+                    ))}
                 </Tbody>
-                <Tfoot>
-                    <Tr>
-                        <Th>To convert</Th>
-                        <Th>into</Th>
-                        <Th isNumeric>multiply by</Th>
-                    </Tr>
-                </Tfoot>
             </Table>
         </TableContainer>
     )
