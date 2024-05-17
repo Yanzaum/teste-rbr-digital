@@ -19,7 +19,9 @@ export default class EmployeeController {
 	) {
 		httpServer.register("get", "/api/employees", async function (params: any, body: any) {
 			const output = await getAllEmployees.execute();
-			return output;
+			return {
+				body: output
+			};
 		});
 
 		httpServer.register("get", "/api/employees/:{id}", async function (params: any, body: any) {
@@ -27,7 +29,9 @@ export default class EmployeeController {
 				const parsedParams = await zParse(updateEmployeeSchemaParams, params);
 				const id = parsedParams.id;
 				const output = await getEmployeeById.execute(id);
-				return output;
+				return {
+					body: output
+				};
 			} catch (error) {
 				return { statusCode: 500, body: { message: "Internal Server Error" } };
 			}
