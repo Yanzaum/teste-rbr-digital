@@ -12,6 +12,7 @@ import {
 } from '@chakra-ui/react'
 import { useMutation } from "@tanstack/react-query";
 import { employeeService } from "@/services/api/employees";
+import { queryClient } from "@/app/providers";
 
 const createEmployeeSchema = z.object({
     name: z.string().min(1, "Nome é obrigatório"),
@@ -55,6 +56,9 @@ export default function CreateEmployee({
                 toast({
                     title: 'Colaborador criado com sucesso',
                     status: 'success',
+                })
+                queryClient.invalidateQueries({
+                    queryKey: ['employees'],
                 })
             },
             onError: () => {
