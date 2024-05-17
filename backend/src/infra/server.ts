@@ -8,6 +8,9 @@ import EmployeeController from "./controller/EmployeeController";
 import DatabaseConnection from "./database/DatabaseConnection";
 import { ExpressAdapter } from "./http/HttpServer";
 import EmployeeRepositoryMongoose from "./repository/EmployeeRepositoryMongoose";
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 DatabaseConnection();
 
@@ -24,4 +27,4 @@ const updateEmployee = new UpdateEmployee(employeeRepository);
 new EmployeeController(httpServer, getEmployeeById, getAllEmployees, createEmployee, updateEmployee, deleteEmployee);
 
 
-httpServer.listen(3000);
+httpServer.listen(Number(process.env.PORT) || 4000);
