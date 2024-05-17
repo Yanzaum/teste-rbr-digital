@@ -16,7 +16,7 @@ export class ExpressAdapter implements HttpServer {
 	register(method: HttpMethod, url: string, callback: Function): void {
 		this.app[method](url.replace(/\{|\}/g, ""), async (req: Request, res: Response) => {
 			try {
-				const output = await callback(req.params, req.body);
+				const output = await callback(req.params, req.body, req.query);
 				if (output.statusCode) {
 					res.status(output.statusCode);
 				}
