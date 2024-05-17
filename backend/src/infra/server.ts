@@ -26,5 +26,4 @@ const updateEmployee = new UpdateEmployee(employeeRepository);
 
 new EmployeeController(httpServer, getEmployeeById, getAllEmployees, createEmployee, updateEmployee, deleteEmployee);
 
-
 httpServer.listen(Number(process.env.PORT) || 4000);
