@@ -115,7 +115,7 @@ export default function EmployeesTable({
                                 </Td>
                             </Tr>
                         ))}
-                        {employees.length === 0 && !isLoading && (
+                        {employees.length === 0 && !isLoading && !errorOnLoadEmployees && (
                             <Tr>
                                 <Td colSpan={4}>Nenhum colaborador encontrado</Td>
                             </Tr>
