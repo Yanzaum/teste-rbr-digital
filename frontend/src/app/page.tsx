@@ -60,7 +60,7 @@ export default function EmployeesPage() {
                     </InputLeftElement>
                     <Input
                         type='text'
-                        placeholder='Pesquise pelo nome do colaborador'
+                        placeholder='Pesquise pelo nome, cargo ou departamento do colaborador'
                         className="max-w-lg"
                         value={displaySearch}
                         onChange={handleSearchChange}
