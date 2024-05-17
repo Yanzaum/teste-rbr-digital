@@ -17,7 +17,7 @@
     npm install
     ```
 
-3. Crie um arquivo `.env` com as variáveis de ambiente necessárias (consulte `.env.example` para um exemplo).
+3. Verifique se no arquivo `.env` está com a variavel correta apontando para o backend.
 
 4. Execute o servidor de desenvolvimento:
 
