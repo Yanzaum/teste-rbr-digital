@@ -1,0 +1,32 @@
+@baseUrl = http://localhost:3000
+
+###
+GET {{ baseUrl }}/api/employees
+
+###
+GET {{ baseUrl }}/api/employees/d1f26559-4eef-47e5-9ca4-c904d625e1d9
+
+###
+POST {{ baseUrl }}/api/employees
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "department": "finance",
+  "role": "supervisor",
+  "admissionDate": "2020-01-01"
+}
+
+###
+PUT {{ baseUrl }}/api/employees/d1f26559-4eef-47e5-9ca4-c904d625e1d9
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "department": "finance",
+  "role": "master",
+  "admissionDate": "2020-10-01"
+}
+
+###
+DELETE {{ baseUrl }}/api/employees/d1f26559-4eef-47e5-9ca4-c904d625e1d9
