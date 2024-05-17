@@ -1,30 +1,64 @@
 'use client'
-import { Button, Text, useDisclosure } from "@chakra-ui/react";
+import { Button, Input, InputGroup, InputLeftElement, Text, useDisclosure } from "@chakra-ui/react";
 import EmployeesTable from "./components/EmployeesTable";
-import { Plus } from '@phosphor-icons/react';
+import { MagnifyingGlass, Plus } from '@phosphor-icons/react';
 import CreateEmployee from "./components/forms/CreateEmployee";
+import { useQuery } from "@tanstack/react-query";
+import { employeeService } from "@/services/api/employees";
+import { useState } from "react";
 
 export default function EmployeesPage() {
+    const [search, setSearch] = useState<string>('')
+    const [orderBy, setOrderBy] = useState<string>('')
+    const [order, setOrder] = useState<string>('')
+
     const { isOpen: isOpenCreate, onClose: onCloseCreate, onToggle: onToggleCreate } = useDisclosure({
         defaultIsOpen: false,
         id: 'create-employee',
     })
 
+    const {
+        data: employees = [],
+        isLoading,
+        error: errorOnLoadEmployees,
+    } = useQuery({
+        queryKey: ['employees', search, orderBy, order],
+        queryFn: () => employeeService.getEmployees(search, orderBy, order),
+    })
+
     return (
-        <main className="container mx-auto space-y-4 min-h-screen py-10">
-            <div className="flex justify-between items-center">
-                <Text fontSize='2xl' fontWeight='bold'>Colaboradores</Text>
-                <Button
-                    type="button"
-                    leftIcon={<Plus />}
-                    colorScheme='teal'
-                    variant='solid'
-                    onClick={onToggleCreate}
-                >
-                    Adicionar
-                </Button>
+        <main className="container md:mx-auto space-y-4 min-h-screen md:py-10 p-4">
+            <div className="flex flex-col gap-2">
+                <div className="flex justify-between items-center">
+                    <Text fontSize='2xl' fontWeight='bold'>Colaboradores</Text>
+                    <Button
+                        type="button"
+                        leftIcon={<Plus />}
+                        colorScheme='teal'
+                        variant='solid'
+                        onClick={onToggleCreate}
+                    >
+                        Adicionar
+                    </Button>
+                </div>
+                <InputGroup>
+                    <InputLeftElement pointerEvents='none'>
+                        <MagnifyingGlass />
+                    </InputLeftElement>
+                    <Input
+                        type='text'
+                        placeholder='Pesquise pelo nome do colaborador'
+                        className="max-w-lg"
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                    />
+                </InputGroup>
             </div>
-            <EmployeesTable />
+            <EmployeesTable
+                employees={employees}
+                isLoading={isLoading}
+                errorOnLoadEmployees={errorOnLoadEmployees}
+            />
             <CreateEmployee isOpen={isOpenCreate} onClose={onCloseCreate} />
         </main>
     )

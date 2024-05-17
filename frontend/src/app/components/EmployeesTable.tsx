@@ -9,28 +9,28 @@ import {
     useDisclosure,
 } from '@chakra-ui/react'
 import EmployeesActions from './EmployeesActions'
-import { useQuery } from '@tanstack/react-query'
-import { employeeService } from '@/services/api/employees'
 import { useState } from 'react'
 import UpdateEmployee from './forms/UpdateEmployee'
 import DeleteEmployee from './forms/DeleteEmployee'
+import { Employee } from '@/services/api/employees/types/employee'
 
-type Employee = {
+type EmployeeLocal = {
     id: string
     name: string
 }
 
-export default function EmployeesTable() {
-    const [selectedEmployee, setSelectedEmployee] = useState<{ employee: Employee, action: 'update' | 'delete' } | null>(null)
+type EmployeesTableProps = {
+    employees: Employee[]
+    isLoading: boolean
+    errorOnLoadEmployees: Error | null
+}
 
-    const {
-        data: employees,
-        isLoading,
-        error: errorOnLoadEmployees,
-    } = useQuery({
-        queryKey: ['employees'],
-        queryFn: employeeService.getEmployees,
-    })
+export default function EmployeesTable({
+    employees,
+    isLoading,
+    errorOnLoadEmployees,
+}: EmployeesTableProps) {
+    const [selectedEmployee, setSelectedEmployee] = useState<{ employee: EmployeeLocal, action: 'update' | 'delete' } | null>(null)
 
     const { isOpen: isOpenUpdate, onOpen: onOpenUpdate, onClose: onCloseUpdate } = useDisclosure({
         defaultIsOpen: false,
@@ -42,7 +42,7 @@ export default function EmployeesTable() {
         id: 'delete-employee',
     })
 
-    const handleAction = (employee: Employee, action: 'update' | 'delete') => {
+    const handleAction = (employee: EmployeeLocal, action: 'update' | 'delete') => {
         setSelectedEmployee({ employee, action })
         if (action === 'update') {
             onOpenUpdate()
