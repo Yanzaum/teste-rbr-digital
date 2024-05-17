@@ -142,7 +142,9 @@ export default function CreateEmployee({
                             </span>
                         )}
                     </div>
-                    <Button type="submit">Salvar</Button>
+                    <Button type="submit" isLoading={isCreatingEmployee}>
+                        Salvar
+                    </Button>
                 </div>
             </form>
         </ModalBody>
