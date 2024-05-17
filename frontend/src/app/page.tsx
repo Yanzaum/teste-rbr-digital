@@ -9,6 +9,7 @@ import { useState } from "react";
 
 export default function EmployeesPage() {
     const [search, setSearch] = useState<string>('')
+    const [displaySearch, setDisplaySearch] = useState<string>('')
     const [orderBy, setOrderBy] = useState<string>('')
     const [order, setOrder] = useState<string>('')
 
@@ -16,6 +17,18 @@ export default function EmployeesPage() {
         defaultIsOpen: false,
         id: 'create-employee',
     })
+
+    const [typingTimeout, setTypingTimeout] = useState<NodeJS.Timeout | null>(null);
+
+    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setDisplaySearch(e.target.value)
+        if (typingTimeout) {
+            clearTimeout(typingTimeout)
+        }
+        setTypingTimeout(setTimeout(() => {
+            setSearch(e.target.value)
+        }, 1000))
+    }
 
     const {
         data: employees = [],
@@ -49,8 +62,8 @@ export default function EmployeesPage() {
                         type='text'
                         placeholder='Pesquise pelo nome do colaborador'
                         className="max-w-lg"
-                        value={search}
-                        onChange={(e) => setSearch(e.target.value)}
+                        value={displaySearch}
+                        onChange={handleSearchChange}
                     />
                 </InputGroup>
             </div>
@@ -58,6 +71,10 @@ export default function EmployeesPage() {
                 employees={employees}
                 isLoading={isLoading}
                 errorOnLoadEmployees={errorOnLoadEmployees}
+                orderBy={orderBy}
+                setOrderBy={setOrderBy}
+                order={order}
+                setOrder={setOrder}
             />
             <CreateEmployee isOpen={isOpenCreate} onClose={onCloseCreate} />
         </main>

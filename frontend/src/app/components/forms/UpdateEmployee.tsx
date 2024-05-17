@@ -58,7 +58,6 @@ export default function UpdateEmployee({
 
     useEffect(() => {
         if (employee) {
-            console.log(employee.admissionDate)
             setValue("name", employee.name);
             setValue("role", employee.role);
             setValue("department", employee.department);
