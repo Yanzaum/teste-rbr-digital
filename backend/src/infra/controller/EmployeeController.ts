@@ -6,7 +6,7 @@ import DeleteEmployee from "../../application/useCase/DeleteEmployee";
 import GetAllEmployees from "../../application/useCase/GetAllEmployees";
 import GetEmployeeById from "../../application/useCase/GetEmployeeById";
 import UpdateEmployee from "../../application/useCase/UpdateEmployee";
-import { createEmployeeSchemaBody, deleteEmployeeSchemaParams, updateEmployeeSchemaBody, updateEmployeeSchemaParams } from "../../application/validators/schemas";
+import { createEmployeeSchemaBody, deleteEmployeeSchemaParams, getAllEmployeesSchemaQuery, updateEmployeeSchemaBody, updateEmployeeSchemaParams } from "../../application/validators/schemas";
 
 export default class EmployeeController {
 	constructor (
@@ -17,8 +17,9 @@ export default class EmployeeController {
 		readonly updateEmployee: UpdateEmployee,
 		readonly deleteEmployee: DeleteEmployee
 	) {
-		httpServer.register("get", "/api/employees", async function (params: any, body: any) {
-			const output = await getAllEmployees.execute();
+		httpServer.register("get", "/api/employees", async function (params: any, body: any, query: any) {
+			const parsedQuery = await zParse(getAllEmployeesSchemaQuery, query);
+			const output = await getAllEmployees.execute(parsedQuery);
 			return {
 				body: output
 			};

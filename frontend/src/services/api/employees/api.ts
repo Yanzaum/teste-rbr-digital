@@ -3,8 +3,14 @@ import { EmployeeData, EmployeeGateway } from "./interface/EmployeeGateway";
 import { Employee } from "./types/employee";
 
 export class APIEmployeeService implements EmployeeGateway {
-    async getEmployees(): Promise<Employee[]> {
-        const response = await api.get("/employees");
+    async getEmployees(search?: string, orderBy?: string, order?: string): Promise<Employee[]> {
+        const response = await api.get("/employees", {
+            params: {
+                search,
+                orderBy,
+                order
+            }
+        });
         return response.data;
     }
 

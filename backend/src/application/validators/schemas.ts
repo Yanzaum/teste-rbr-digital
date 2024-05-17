@@ -1,7 +1,13 @@
 import { z } from "zod";
 
+export const getAllEmployeesSchemaQuery = z.object({
+  search: z.string().optional(),
+  orderBy: z.string().optional(),
+  order: z.string().optional(),
+});
+
 export const getEmployeeSchemaParams = z.object({
-    id: z.string().min(1, "ID is required"),
+  id: z.string().min(1, "ID is required"),
 });
 
 export const createEmployeeSchemaBody = z.object({
