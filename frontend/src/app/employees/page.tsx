@@ -5,7 +5,7 @@ import { Plus } from '@phosphor-icons/react';
 import CreateEmployee from "./components/forms/CreateEmployee";
 
 export default function EmployeesPage() {
-    const { isOpen, onClose, onToggle } = useDisclosure({
+    const { isOpen: isOpenCreate, onClose: onCloseCreate, onToggle: onToggleCreate } = useDisclosure({
         defaultIsOpen: false,
         id: 'create-employee',
     })
@@ -19,13 +19,13 @@ export default function EmployeesPage() {
                     leftIcon={<Plus />}
                     colorScheme='teal'
                     variant='solid'
-                    onClick={onToggle}
+                    onClick={onToggleCreate}
                 >
                     Adicionar
                 </Button>
             </div>
             <EmployeesTable />
-            <CreateEmployee isOpen={isOpen} onClose={onClose} />
+            <CreateEmployee isOpen={isOpenCreate} onClose={onCloseCreate} />
         </main>
     )
 }
