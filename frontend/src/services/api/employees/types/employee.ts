@@ -3,7 +3,7 @@ export type Employee = {
     name: string;
     role: string;
     department: string;
-    admissionDate: string;
-    createdAt: string;
-    updatedAt: string;
+    admissionDate: Date;
+    createdAt: Date;
+    updatedAt: Date;
 };
