@@ -37,6 +37,7 @@ export default function CreateEmployee({
     const {
         register,
         handleSubmit,
+        reset,
         formState: { errors },
     } = useForm<CreateEmployeeFormData>({
         resolver: zodResolver(createEmployeeSchema),
@@ -60,6 +61,7 @@ export default function CreateEmployee({
                 queryClient.invalidateQueries({
                     queryKey: ['employees'],
                 })
+                reset();
             },
             onError: () => {
                 toast({
