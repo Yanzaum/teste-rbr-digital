@@ -144,7 +144,7 @@ export default function CreateEmployee({
                             </span>
                         )}
                     </div>
-                    <Button type="submit" isLoading={isCreatingEmployee}>
+                    <Button colorScheme="blue" type="submit" isLoading={isCreatingEmployee}>
                         Salvar
                     </Button>
                 </div>
