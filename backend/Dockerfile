@@ -1,8 +1,10 @@
-FROM node:lts as builder
+FROM node:lts as build
 
 WORKDIR /usr/src/app
 
-COPY package*.json ./
+COPY package*.json .
+
+RUN npm install
 
 COPY . .
 
@@ -15,8 +17,10 @@ USER node
 
 WORKDIR /usr/src/app
 
-COPY package*.json ./
+COPY package*.json .
 
-COPY --from=builder /usr/src/app/dist ./dist
+RUN npm ci --only=production
 
-CMD ["node", "start"]
+COPY --from=build /usr/src/app/dist ./dist
+
+CMD ["node", "dist/infra/server.js"]

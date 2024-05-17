@@ -1,29 +1,29 @@
 services:
-  mongo:
-    container_name: db_container
-    image: mongo:latest
+  mongo_db:
+    container_name: database_container
+    image: mongo
     restart: always
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: pass
     volumes:
-      - ./mongo_data:/data/db
+      - mongo_db:/data/db
     ports:
-      - 27020:27017
+      - 27017:27017
 
-  # api:
-  #   container_name: api_container
-  #   build:
-  #     context: .
-  #     dockerfile: Dockerfile
-  #   restart: always
-  #   ports:
-  #     - 3000:3000
-  #   depends_on:
-  #     - mongo
-  #   environment:
-  #     - MONGO_URI=mongodb://mongo:27020
+  api:
+    container_name: api_container
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - 3000:3000
+    depends_on:
+      - mongo_db
+    environment:
+      - DATABASE_URL_MONGO=mongodb://mongo_db:27017/rbr
+      - PORT=3000
+    volumes:
+      - ./:/usr/src/app
 
 volumes:
-  mongo_data: {}
+  mongo_db: {}
   
