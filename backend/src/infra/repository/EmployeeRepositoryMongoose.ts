@@ -47,7 +47,13 @@ export default class EmployeeRepositoryMongoose implements EmployeeRepository {
     }
 
     async update(employeeUpdated: Employee) {
-        await this.employeeModel.updateOne({ id: employeeUpdated.id }, employeeUpdated);
+        await this.employeeModel.updateOne({ id: employeeUpdated.id }, {
+            name: employeeUpdated.getName(),
+            department: employeeUpdated.getDepartment(),
+            role: employeeUpdated.getRole(),
+            admissionDate: employeeUpdated.getAdmissionDate(),
+            updatedAt: employeeUpdated.getUpdatedAt()
+        });
     }
 
     async delete(id: string) {

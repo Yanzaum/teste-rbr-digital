@@ -3,12 +3,12 @@ import crypto from 'crypto';
 export default class Employee {
     private constructor(
         readonly id: string,
-        readonly name: string,
-        readonly department: string,
-        readonly role: string,
-        readonly admissionDate: Date,
+        private name: string,
+        private department: string,
+        private role: string,
+        private admissionDate: Date,
         readonly createdAt: Date,
-        readonly updatedAt: Date
+        private updatedAt: Date
     ) {}
 
     static create(name: string, department: string, role: string, admissionDate: Date): Employee {
@@ -23,6 +23,39 @@ export default class Employee {
     }
 
     update(name: string, department: string, role: string, admissionDate: Date): Employee {
-        return new Employee(this.id, name, department, role, admissionDate, this.createdAt, new Date());
+        this.name = name;
+        this.department = department;
+        this.role = role;
+        this.admissionDate = admissionDate;
+        this.updatedAt = new Date();
+        return this;
+    }
+
+    getId(): string {
+        return this.id;
+    }
+
+    getName(): string {
+        return this.name;
+    }
+
+    getDepartment(): string {
+        return this.department;
+    }
+
+    getRole(): string {
+        return this.role;
+    }
+
+    getAdmissionDate(): Date {
+        return this.admissionDate;
+    }
+
+    getCreatedAt(): Date {
+        return this.createdAt;
+    }
+
+    getUpdatedAt(): Date {
+        return this.updatedAt;
     }
 }

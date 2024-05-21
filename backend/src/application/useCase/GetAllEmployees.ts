@@ -9,9 +9,9 @@ export default class GetAllEmployees {
 
         if (search) {
             employees = employees.filter(employee => 
-                employee.name.toLowerCase().includes(search.toLowerCase()) ||
-                employee.department.toLowerCase().includes(search.toLowerCase()) ||
-                employee.role.toLowerCase().includes(search.toLowerCase())
+                employee.getName().toLowerCase().includes(search.toLowerCase()) ||
+                employee.getDepartment().toLowerCase().includes(search.toLowerCase()) ||
+                employee.getRole().toLowerCase().includes(search.toLowerCase())
             );
         }
 
